@@ -1,7 +1,0 @@
-c:\users\kevin\documents\visual studio 2010\Projects\ExploreFriendConnect\ExploreFriendConnect\bin\ExploreFriendConnect.dll
-c:\users\kevin\documents\visual studio 2010\Projects\ExploreFriendConnect\ExploreFriendConnect\bin\ExploreFriendConnect.pdb
-c:\users\kevin\documents\visual studio 2010\Projects\ExploreFriendConnect\ExploreFriendConnect\obj\Debug\ResolveAssemblyReference.cache
-c:\users\kevin\documents\visual studio 2010\Projects\ExploreFriendConnect\ExploreFriendConnect\obj\Debug\ExploreFriendConnect.dll
-c:\users\kevin\documents\visual studio 2010\Projects\ExploreFriendConnect\ExploreFriendConnect\obj\Debug\ExploreFriendConnect.pdb
-C:\Users\kevin\documents\visual studio 2010\Projects\ExploreFriendConnect\ExploreFriendConnect\bin\EntityFramework.dll
-C:\Users\kevin\documents\visual studio 2010\Projects\ExploreFriendConnect\ExploreFriendConnect\bin\Jayrock.Json.dll
