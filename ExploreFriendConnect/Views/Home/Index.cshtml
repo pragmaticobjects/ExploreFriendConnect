@@ -1,0 +1,79 @@
+﻿@model ExploreFriendConnect.Models.User
+
+@section JavaScript {
+    <!-- Load the Google AJAX API Loader -->
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+        
+    <!-- Load the Google Friend Connect javascript library. -->
+    <script type="text/javascript">
+        google.load('friendconnect', '@ExploreFriendConnect.Conf.ApplicationConfiguration.FriendConnectLibVersion');
+    </script>
+     
+    <script type="text/javascript">
+        google.load('search', '0.8');
+    </script>
+    
+    <script src="@Url.Content("~/Scripts/App/json2.js")" type="text/javascript"></script>    
+
+    <script type="text/javascript">
+            
+    </script>   
+   
+    <!-- 
+    <link rel="stylesheet" type="text/css" href="css/base.css"/>
+    <link rel="stylesheet" type="text/css" href="css/skin.css"/>
+    <link rel="stylesheet" type="text/css" href="css/container.css"/>
+    -->       
+}
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>This is the Home Page</h2>
+
+<script type="text/javascript">
+    $(document).ready(function () {        
+        google.friendconnect.container.initOpenSocialApi({
+            site: '@ExploreFriendConnect.Conf.ApplicationConfiguration.FriendConnectSiteId',
+            onload: function (securityToken) {
+                console.log('onload');
+                var req = opensocial.newDataRequest();
+                req.add(req.newFetchPersonRequest('OWNER'), 'owner_data');
+                req.add(req.newFetchPersonRequest('VIEWER'), 'viewer_data');
+                req.send(function (data) {
+                    console.log(data);
+                    if (google.loader.ClientLocation) {
+                        loc = google.loader.ClientLocation.address;
+                        $("#local-location").val(loc.city + ", " + loc.region + ", " + loc.country);
+                    }
+                });
+            }
+        });
+    });
+</script>
+
+<div id="wrap" class="largebottomrounded index">
+    <div id="topbar" class="">
+        <div id="controls">        
+            @if (Model != null) {
+                <img alt='' src='@Model.Image' class='thumbnailurl' />
+                <div>Hi  @Model.Name</div>
+                if ((string)Request.Cookies[ExploreFriendConnect.Conf.ApplicationConfiguration.FriendConnectCookie].Value != "") {
+                    <div><a href="javascript:void(0);" onclick="google.friendconnect.requestSettings();">Settings</a></div>                
+                    <div><a href="javascript:void(0);" onclick="google.friendconnect.requestInvite();">Invite friends</a></div>
+                    <div><a href="/Friends">Friends</a></div>
+                    <div><a href="/Members">Members</a></div>
+                                                                                                                                 }
+            }
+                                            
+            <div><a href="#" onclick="google.friendconnect.requestSignOut();window.top.location.href = '/'">Sign out</a></div>
+        </div> 
+        <div id="local-location"></div>     
+    </div>            
+      
+    <span id="fc-content">
+    <!-- we will fetch the content using ajax and fill here. -->
+    </span>          
+</div>
+

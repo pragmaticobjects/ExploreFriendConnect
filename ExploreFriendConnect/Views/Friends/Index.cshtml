@@ -1,0 +1,107 @@
+﻿@section JavaScript {    
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+        
+    <!-- Load the Google Friend Connect javascript library. -->
+    <script type="text/javascript">
+        google.load('friendconnect', '@ExploreFriendConnect.Conf.ApplicationConfiguration.FriendConnectLibVersion');
+    </script>
+    
+    <script src="@Url.Content("~/Scripts/App/json2.js")" type="text/javascript"></script>         
+   
+    <!-- 
+    <link rel="stylesheet" type="text/css" href="css/base.css"/>
+    <link rel="stylesheet" type="text/css" href="css/skin.css"/>
+    <link rel="stylesheet" type="text/css" href="css/container.css"/>
+    -->       
+}
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        //google.friendconnect.container.setParentUrl('/Members');
+        google.friendconnect.container.initOpenSocialApi({
+            site: '@ExploreFriendConnect.Conf.ApplicationConfiguration.FriendConnectSiteId',
+            onload: function (securityToken) {
+                var idspec = new opensocial.IdSpec({
+                    'userId': 'VIEWER',
+                    'groupId': 'FRIENDS'
+                });
+
+                var req = opensocial.newDataRequest();
+
+                req.add(req.newFetchPersonRequest("VIEWER"), "viewer_data");
+                req.add(req.newFetchPeopleRequest(idspec), 'viewer_friends');
+
+                req.send(function (data) {
+                    console.log(data.get('viewer_data'));
+                    console.log(data.get('viewer_friends'));
+                    if (!data.get("viewer_friends").hadError()) {
+                        var site_friends = data.get("viewer_friends").getData();
+                        console.log(site_friends);
+                        var list = document.getElementById("friends-list");
+                        list.innerHTML = "";
+                        site_friends.each(function (friend) {
+                            list.innerHTML += "<li>" + friend.getDisplayName() + "</li>";
+                        });
+                    } else {
+                        console.log('viewer friends error');
+                    }
+                });
+
+                /*
+                var req2 = opensocial.newDataRequest();
+                var idspec2 = new opensocial.IdSpec({
+                    'userId': 'OWNER',
+                    'groupId': 'FRIENDS'
+                });
+                req2.add(req.newFetchPeopleRequest(idspec2), 'site_members');
+                req.send(function (data) {
+                    console.log(data);
+                    
+                    if (!data.get("site_members").hadError()) {
+                    var site_friends = data.get("site_members").getData();
+                    console.log(site_friends);
+                    var list = document.getElementById("friends-list");
+                    list.innerHTML = "";
+                    site_friends.each(function (friend) {
+                    list.innerHTML += "<li>" + friend.getDisplayName() + "</li>";
+                    });
+                    } else {
+                    console.log('viewer friends error');
+                    }
+                });
+
+                var req3 = opensocial.newDataRequest();
+                req3.add(req3.newFetchPersonRequest('OWNER'), 'owner_data');
+                req3.add(req3.newFetchPersonRequest('VIEWER'), 'viewer_data');
+                var idspec3 = new opensocial.IdSpec({
+                    'userId': 'OWNER',
+                    'groupId': 'FRIENDS'
+                });
+                req3.add(req3.newFetchPeopleRequest(idspec), 'site_friends');
+                req3.send(function (data) {
+                    console.log('FRIENDS');
+                    var friendData = data.get("site_friends");
+                    console.log(friendData);
+
+                    console.log('OWNER');
+                    var ownerData = data.get("owner_data");
+                    console.log(ownerData);
+
+                    console.log('VIEWER');
+                    var viewerData = data.get("viewer_data");
+                    console.log(viewerData);
+                });
+                */
+            }
+        });
+    });
+</script>
+
+<h2>Friends</h2>
+
+<div id="friends-list"></div>
